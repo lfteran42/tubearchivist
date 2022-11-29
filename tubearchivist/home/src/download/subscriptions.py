@@ -47,7 +47,11 @@ class ChannelSubscription:
         url = f"https://www.youtube.com/channel/{channel_id}/videos"
         channel = YtWrap(obs, self.config).extract(url)
         if not channel:
-            return False
+            """ get a list of last streams """
+            url = f"https://www.youtube.com/channel/{channel_id}/streams"
+            channel = YtWrap(obs, self.config).extract(url)
+            if not channel:
+                return False
 
         last_videos = [(i["id"], i["title"]) for i in channel["entries"]]
         return last_videos
